@@ -202,7 +202,7 @@ var config = {
 		{
 			group: 'Tiendas',
 			title: 'Churrería',
-			query: '(node["cuisine"="churros"]({{bbox}});node(w););out meta;',
+			query: '(node["cuisine"="churro"]({{bbox}});node(w););out meta;',
 			iconSrc: imgSrc + 'icones/churreria.svg',
 			iconStyle: 'background-color:rgba(255,255,255,0.4)',
 style: function (feature) {
