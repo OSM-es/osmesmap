@@ -16,6 +16,7 @@ var config = {
 	},
 	i18n: {
 		layersLabel: 'Capas',
+		completeWith: 'Complete with:',
 		editWith: 'Editar con:',
 		openWith: 'Abrir con:',
 		checkTools: 'Validation:',
@@ -26,11 +27,11 @@ var config = {
 	},
 	overpassApi: function(){
 		// https://overpass-turbo.eu/
-		var proxyOverpassApi = false;
+		var proxyOverpassApi = true;
 		var overpassApi = 'https://overpass-api.de/api/interpreter';
 		if (proxyOverpassApi)
 		{
-			overpassApi = 'https://mijndev.openstreetmap.nl/~ligfietser/fiets/api/interpreter/';
+			overpassApi = 'https://overpass.kumi.systems/api/interpreter';
 		}
 		return overpassApi;
 	},
@@ -42,30 +43,21 @@ var config = {
 			source: new ol.source.OSM()
 		}),
 		new ol.layer.Tile({
-			title: 'OpenStreetMap B&W',
+			title: 'OpenStreetMap DE',
 			iconSrc: imgSrc + 'osmbw_logo-layer.png',
+			maxZoom: 18,
 			source: new ol.source.XYZ({
-				attributions: '&copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap</a>',
-				//url: 'https://toolserver.org/tiles/bw-mapnik/{z}/{x}/{y}.png'
-				url: 'https://tiles.wmflabs.org/bw-mapnik/{z}/{x}/{y}.png'
+				attributions: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+				url: 'https://{a-c}.tile.openstreetmap.de/{z}/{x}/{y}.png'
 			}),
 			visible: false
 		}),
 		new ol.layer.Tile({// OpenStreetMap France https://openstreetmap.fr
-			title: 'OpenStreetMap France',
+			title: 'OpenStreetMap FR',
 			iconSrc: imgSrc + 'osmfr_logo-layer.png',
 			source: new ol.source.OSM({
 				attributions: '&copy; <a href="https://www.openstreetmap.fr/" target="_blank">OpenStreetMap France</a>',
 				url: 'https://{a-c}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png'
-			}),
-			visible: false
-		}),
-		new ol.layer.Tile({
-			title: 'OpenMapSurfer',
-			iconSrc: imgSrc + 'openroute_logo_layer.png',
-			source: new ol.source.XYZ({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>, powered by <a href="https://mapsurfernet.com/" target="_blank">MapSurfer.NET</a>',
-				url: 'https://maps.heigit.org/openmapsurfer/tiles/roads/webmercator/{z}/{x}/{y}.png'
 			}),
 			visible: false
 		}),
@@ -123,272 +115,27 @@ var config = {
 			}),
 			visible: false
 		}),
-
 		new ol.layer.Tile({
-			title: '1870-1950 ES_IGN 0 Planimetrías (Minutas cartográficas)',
+			title: 'ES_IGN - PNOA - Actual',
 			iconSrc: imgSrc + 'logo_ign.png',
 			source: new ol.source.TileWMS({
 				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://www.ign.es/wms/minutas-cartograficas?',
-				params: {'LAYERS': 'Minutas'}
+				url: 'http://www.ign.es/wms-inspire/pnoa-ma?',
+				params: {'LAYERS': 'OI.OrthoimageCoverage', 'VERSION': '1.3.0'}
 			}),
 			visible: false
 		}),
-
-		new ol.layer.Tile({
-			title: '1915 ES_IGN 0 Edición MTN50 (Catastrones)',
-			iconSrc: imgSrc + 'logo_ign.png',
-			source: new ol.source.TileWMS({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://www.ign.es/wms/primera-edicion-mtn?',
-				params: {'LAYERS': 'catastrones'}
-			}),
-			visible: false
-		}),
-
-		new ol.layer.Tile({
-			title: 'ES_IGN 1a Edición MTN25',
-			iconSrc: imgSrc + 'logo_ign.png',
-			source: new ol.source.TileWMS({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://www.ign.es/wms/primera-edicion-mtn?',
-				params: {'LAYERS': 'MTN25'}
-			}),
-			visible: false
-		}),
-
-		new ol.layer.Tile({
-			title: 'ES_IGN 1a Edición MTN50',
-			iconSrc: imgSrc + 'logo_ign.png',
-			source: new ol.source.TileWMS({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://www.ign.es/wms/primera-edicion-mtn?',
-				params: {'LAYERS': 'MTN50'}
-			}),
-			visible: false
-		}),
-
-		new ol.layer.Tile({
-			title: '1945-1946 ES_IGN - Vol AMS Sèrie A',
-			iconSrc: imgSrc + 'logo_ign.png',
-			source: new ol.source.TileWMS({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://fototeca.cnig.es/wms/fototeca.dll?',
-				params: {'LAYERS': 'americano_serie_a'}
-			}),
-			visible: false
-		}),
-
-		new ol.layer.Tile({
-			title: '1956-1957 ES_IGN - Vol AMS Sèrie B',
-			iconSrc: imgSrc + 'logo_ign.png',
-			source: new ol.source.TileWMS({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://www.ign.es/wms/pnoa-historico?',
-				params: {'LAYERS': 'AMS_1956-1957'}
-			}),
-			visible: false
-		}),
-		new ol.layer.Tile({
-			title: '1973-1986 ES_IGN - Interministerial',
-			iconSrc: imgSrc + 'logo_ign.png',
-			source: new ol.source.TileWMS({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://www.ign.es/wms/pnoa-historico?',
-				params: {'LAYERS': 'Interministerial_1973-1986'}
-			}),
-			visible: false
-		}),
-		new ol.layer.Tile({
-			title: '1981-1986 ES_IGN - Nacional',
-			iconSrc: imgSrc + 'logo_ign.png',
-			source: new ol.source.TileWMS({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://www.ign.es/wms/pnoa-historico?',
-				params: {'LAYERS': 'Nacional_1981-1986'}
-			}),
-			visible: false
-		}),
-		new ol.layer.Tile({
-			title: '1997-1998 ES_IGN - Olistat',
-			iconSrc: imgSrc + 'logo_ign.png',
-			source: new ol.source.TileWMS({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://www.ign.es/wms/pnoa-historico?',
-				params: {'LAYERS': 'OLISTAT'}
-			}),
-			visible: false
-		}),
-		new ol.layer.Tile({
-			title: '1997-2003 ES_IGN - Sigpac',
-			iconSrc: imgSrc + 'logo_ign.png',
-			source: new ol.source.TileWMS({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://www.ign.es/wms/pnoa-historico?',
-				params: {'LAYERS': 'SIGPAC'}
-			}),
-			visible: false
-		}),
-		new ol.layer.Tile({
-			title: '2004 ES_IGN - PNOA',
-			iconSrc: imgSrc + 'logo_ign.png',
-			source: new ol.source.TileWMS({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://www.ign.es/wms/pnoa-historico?',
-				params: {'LAYERS': 'PNOA2004'}
-			}),
-			visible: false
-		}),
-		new ol.layer.Tile({
-			title: '2005 ES_IGN - PNOA',
-			iconSrc: imgSrc + 'logo_ign.png',
-			source: new ol.source.TileWMS({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://www.ign.es/wms/pnoa-historico?',
-				params: {'LAYERS': 'PNOA2005'}
-			}),
-			visible: false
-		}),
-		new ol.layer.Tile({
-			title: '2006 ES_IGN - PNOA',
-			iconSrc: imgSrc + 'logo_ign.png',
-			source: new ol.source.TileWMS({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://www.ign.es/wms/pnoa-historico?',
-				params: {'LAYERS': 'PNOA2006'}
-			}),
-			visible: false
-		}),
-		new ol.layer.Tile({
-			title: '2007 ES_IGN - PNOA',
-			iconSrc: imgSrc + 'logo_ign.png',
-			source: new ol.source.TileWMS({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://www.ign.es/wms/pnoa-historico?',
-				params: {'LAYERS': 'PNOA2007'}
-			}),
-			visible: false
-		}),
-		new ol.layer.Tile({
-			title: '2008 ES_IGN - PNOA',
-			iconSrc: imgSrc + 'logo_ign.png',
-			source: new ol.source.TileWMS({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://www.ign.es/wms/pnoa-historico?',
-				params: {'LAYERS': 'PNOA2008'}
-			}),
-			visible: false
-		}),
-		new ol.layer.Tile({
-			title: '2009 ES_IGN - PNOA',
-			iconSrc: imgSrc + 'logo_ign.png',
-			source: new ol.source.TileWMS({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://www.ign.es/wms/pnoa-historico?',
-				params: {'LAYERS': 'PNOA2009'}
-			}),
-			visible: false
-		}),
-		new ol.layer.Tile({
-			title: '2010 ES_IGN - PNOA',
-			iconSrc: imgSrc + 'logo_ign.png',
-			source: new ol.source.TileWMS({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://www.ign.es/wms/pnoa-historico?',
-				params: {'LAYERS': 'PNOA2010'}
-			}),
-			visible: false
-		}),
-		new ol.layer.Tile({
-			title: '2011 ES_IGN - PNOA',
-			iconSrc: imgSrc + 'logo_ign.png',
-			source: new ol.source.TileWMS({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://www.ign.es/wms/pnoa-historico?',
-				params: {'LAYERS': 'PNOA2011'}
-			}),
-			visible: false
-		}),
-		new ol.layer.Tile({
-			title: '2012 ES_IGN - PNOA',
-			iconSrc: imgSrc + 'logo_ign.png',
-			source: new ol.source.TileWMS({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://www.ign.es/wms/pnoa-historico?',
-				params: {'LAYERS': 'PNOA2012'}
-			}),
-			visible: false
-		}),
-		new ol.layer.Tile({
-			title: '2013 ES_IGN - PNOA',
-			iconSrc: imgSrc + 'logo_ign.png',
-			source: new ol.source.TileWMS({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://www.ign.es/wms/pnoa-historico?',
-				params: {'LAYERS': 'PNOA2013'}
-			}),
-			visible: false
-		}),
-		new ol.layer.Tile({
-			title: '2014 ES_IGN - PNOA',
-			iconSrc: imgSrc + 'logo_ign.png',
-			source: new ol.source.TileWMS({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://www.ign.es/wms/pnoa-historico?',
-				params: {'LAYERS': 'PNOA2014'}
-			}),
-			visible: false
-		}),
-		new ol.layer.Tile({
-			title: '2015 ES_IGN - PNOA',
-			iconSrc: imgSrc + 'logo_ign.png',
-			source: new ol.source.TileWMS({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://www.ign.es/wms/pnoa-historico?',
-				params: {'LAYERS': 'PNOA2015'}
-			}),
-			visible: false
-		}),
-		new ol.layer.Tile({
-			title: '2016 ES_IGN - PNOA',
-			iconSrc: imgSrc + 'logo_ign.png',
-			source: new ol.source.TileWMS({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://www.ign.es/wms/pnoa-historico?',
-				params: {'LAYERS': 'PNOA2016'}
-			}),
-			visible: false
-		}),
-		new ol.layer.Tile({
-			title: '2017 ES_IGN - PNOA',
-			iconSrc: imgSrc + 'logo_ign.png',
-			source: new ol.source.TileWMS({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://www.ign.es/wms/pnoa-historico?',
-				params: {'LAYERS': 'PNOA2017'}
-			}),
-			visible: false
-		}),
-		new ol.layer.Tile({
-			title: '2018 ES_IGN - PNOA',
-			iconSrc: imgSrc + 'logo_ign.png',
-			source: new ol.source.TileWMS({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://www.ign.es/wms/pnoa-historico?',
-				params: {'LAYERS': 'PNOA2018'}
-			}),
-			visible: false
-		}),
-		new ol.layer.Tile({
-			title: '2019 ES_IGN - PNOA',
-			iconSrc: imgSrc + 'logo_ign.png',
-			source: new ol.source.TileWMS({
-				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; IGN &mdash; Source: IGN',
-				url: 'https://www.ign.es/wms/pnoa-historico?',
-				params: {'LAYERS': 'PNOA2019'}
-			}),
-			visible: false
 		
+				new ol.layer.Tile({
+			title: 'ES_CAT_ICGC - Actual',
+			iconSrc: imgSrc + 'logo_icgc.png',
+			source: new ol.source.TileWMS({
+				attributions: 'Map data &copy; <a href="https://www.openstreetmap.org/" target="_blank">OpenStreetMap Contributors</a>,Tiles &copy; ICGC &mdash; Source: ICGC',
+				url: 'https://geoserveis.icgc.cat/icc_mapesbase/wms/service?',
+				params: {'LAYERS': 'orto25c', 'VERSION': '1.1.1'}
+			}),
+			visible: false
+
 		}),
 
 		new ol.layer.Tile({
@@ -4832,6 +4579,13 @@ var vectorLayer = new ol.layer.Vector({
 
 	//Es crida sempre que es fa click sobre el mapa
 	onClickEvent: function(evt, view, coordinateLL) {
+		
+				var complete = $('<div>').html(config.i18n.completeWith);
+//Mapcomplete editor
+		complete.append($('<a>').css('marginLeft', 5).attr({title: 'Mapcomplete limits', href: 'https://mapcomplete.osm.be/index.html?z=' + view.getZoom() +'&lat='+ coordinateLL[1] +'&lon='+ coordinateLL[0] +'&userlayout=https%3A%2F%2Fraw.githubusercontent.com%2Fyopaseopor%2Fmcquests%2Fmain%2Flimits.json&language=en#welcome', target: '_blank'}).html($('<img>').attr({src: imgSrc + 'icones/maxspeed_question.svg', height: 20, width: 20})));
+		complete.append($('<a>').css('marginLeft', 5).attr({title: 'OSM Hydrants', href: 'https://www.osmhydrant.org/en/#zoom=' + view.getZoom() +'&lat='+ coordinateLL[1] +'&lon='+ coordinateLL[0], target: '_blank'}).html($('<img>').attr({src: imgSrc + 'osmhydrant_logo.png', height: 20, width: 20})));
+		complete.append($('<a>').css('marginLeft', 5).attr({title: 'Mapcomplete hydrants', href: 'https://mapcomplete.osm.be//hailhydrant.html?z=' + view.getZoom() +'&lat='+ coordinateLL[1] +'&lon='+ coordinateLL[0] +'&language=en&background=osm', target: '_blank'}).html($('<img>').attr({src: imgSrc + 'mapcomplete_logo.png', height: 20, width: 20})));
+		complete.append($('<a>').css('marginLeft', 5).attr({title: 'Mapcomplete track type', href: 'https://mapcomplete.osm.be/index.html?z=' + view.getZoom() +'&lat='+ coordinateLL[1] +'&lon='+ coordinateLL[0] +'&userlayout=https%3A%2F%2Fraw.githubusercontent.com%2Fyopaseopor%2Fmcquests%2Fmain%2Ftracktype.json&language=en#welcome', target: '_blank'}).html($('<img>').attr({src: imgSrc + 'icones/no_tracktype.svg', height: 20, width: 20})));
 
 		var edit = $('<div>').html(config.i18n.editWith);
 		//ID editor
