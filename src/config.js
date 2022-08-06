@@ -16,7 +16,7 @@ var config = {
 	},
 	i18n: {
 		layersLabel: 'Capas',
-		completeWith: 'Complete with:',
+		completeWith: 'Completar con:',
 		editWith: 'Editar con:',
 		openWith: 'Abrir con:',
 		checkTools: 'Validation:',
@@ -198,27 +198,37 @@ var config = {
 				});
 				return style;
 			}
-		},
+  },
 		{
-			group: 'Per date',
-			title: 'Exact year',
-			query: '(nwr[~"^name:....$"~"."]({{bbox}});node(w););out meta;',
-			iconSrc: imgSrc + 'base/circle.svg',
-			iconStyle: 'background-color:#0000ff',
-			style: function () {
+			group: 'Tiendas',
+			title: 'Churrería',
+			query: '(node["cuisine"="churros"]({{bbox}});node(w););out meta;',
+			iconSrc: imgSrc + 'icones/churreria.svg',
+			iconStyle: 'background-color:rgba(255,255,255,0.4)',
+style: function (feature) {
+				var key_regex = /^name$/
+				var name_key = feature.getKeys().filter(function(t){return t.match(key_regex)}).pop() || "name"
+				var name = feature.get(name_key) || '';
 				var fill = new ol.style.Fill({
-					color: 'rgba(0,0,255,0.4)'
+					color: 'rgba(117,63,79,0.4)'
 				});
 				var stroke = new ol.style.Stroke({
-					color: '#0000ff',
-					width: 1.25
+					color: 'rgba(117,63,79,1)',
+					width: 1
 				});
 				var style = new ol.style.Style({
-					image: new ol.style.Circle({
-						fill: fill,
-						stroke: stroke,
-						radius: 5
-					}),
+					image: new ol.style.Icon({
+							src: imgSrc + 'icones/churreria.svg',
+							scale:0.07
+						}),
+							text: new ol.style.Text({
+								text: name,
+								offsetX : 7,
+								offsetY : -10,
+								fill: new ol.style.Fill({
+                            color: 'rgba(0,0,0,1)'
+                        }),
+						}),
 					fill: fill,
 					stroke: stroke
 				});
