@@ -15,16 +15,15 @@ var config = {
 		units: 'metric'
 	},
 	i18n: {
+		layersLabel: 'Layers',
 		completeWith: 'Complete with:',
-		layersLabel: 'Capas',
-		completeWith: 'Completar con:',
-		editWith: 'Editar con:',
-		openWith: 'Abrir con:',
+		editWith: 'Edit with:',
+		openWith: 'Open with:',
 		checkTools: 'Validation:',
 		copyDialog: 'S\'ha copiat l\'enllaç al porta-retalls.Enlace copiado. Link has been copied',
-		nodeLabel: 'Nodo:',
-		noNodesFound: 'No se encuentra lo buscado.',
-		wayLabel: 'Vía:'
+		nodeLabel: 'Node:',
+		noNodesFound: 'No nodes found.',
+		wayLabel: 'Way:'
 	},
 	overpassApi: function(){
 		// https://overpass-turbo.eu/
@@ -174,69 +173,9 @@ var config = {
 		
 				
 		
-			group: 'Peticiones',
-			title: 'Barrera de piedra',
-			query: '(nwr["barrier=stone_row"]({{bbox}});node(w););out meta;',
-			iconSrc: imgSrc + 'base/circle.svg',
-			iconStyle: 'background-color:#3aff00',
-			style: function () {
-				var fill = new ol.style.Fill({
-					color: 'rgba(0,255,0,0.4)'
-				});
-				var stroke = new ol.style.Stroke({
-					color: '#3aff00',
-					width: 1.25
-				});
-				var style = new ol.style.Style({
-					image: new ol.style.Circle({
-						fill: fill,
-						stroke: stroke,
-						radius: 5
-					}),
-					fill: fill,
-					stroke: stroke
-				});
-				return style;
-			}
-  },
 		{
-			group: 'Tiendas',
-			title: 'Churrería',
-			query: '(node["cuisine"="churro"]({{bbox}});node(w););out meta;',
-			iconSrc: imgSrc + 'icones/churreria.svg',
-			iconStyle: 'background-color:rgba(255,255,255,0.4)',
-style: function (feature) {
-				var key_regex = /^name$/
-				var name_key = feature.getKeys().filter(function(t){return t.match(key_regex)}).pop() || "name"
-				var name = feature.get(name_key) || '';
-				var fill = new ol.style.Fill({
-					color: 'rgba(117,63,79,0.4)'
-				});
-				var stroke = new ol.style.Stroke({
-					color: 'rgba(117,63,79,1)',
-					width: 1
-				});
-				var style = new ol.style.Style({
-					image: new ol.style.Icon({
-							src: imgSrc + 'icones/churreria.svg',
-							scale:0.07
-						}),
-							text: new ol.style.Text({
-								text: name,
-								offsetX : 7,
-								offsetY : -10,
-								fill: new ol.style.Fill({
-                            color: 'rgba(0,0,0,1)'
-                        }),
-						}),
-					fill: fill,
-					stroke: stroke
-				});
-				return style;
-			}
-		},
 			
-			{
+			
 			group: 'Limits',
 			title: 'Vies amb "maxspeed"',
 			query: '(way[highway=motorway][maxspeed]({{bbox}});node(w);way[highway=trunk][maxspeed]({{bbox}});node(w);way[highway=primary][maxspeed]({{bbox}});node(w);way[highway=secondary][maxspeed]({{bbox}});node(w);way[highway=tertiary][maxspeed]({{bbox}});node(w);way[highway=unclassified][maxspeed]({{bbox}});node(w);way[highway=track][maxspeed]({{bbox}});node(w);way[highway=living_street][maxspeed]({{bbox}});node(w);way[highway=pedestrian][maxspeed]({{bbox}});node(w);way[highway=residential][maxspeed]({{bbox}});node(w);way[highway=service][maxspeed]({{bbox}});node(w););out meta;',
