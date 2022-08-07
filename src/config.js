@@ -785,11 +785,11 @@ var config = {
 		{
 			group: 'Emergency',
 			title: 'Fire hydrant',
-			query: '(node["emergency"="fire_hydrant"]({{bbox}});node(w););out meta;',
+			query: '(node["cuisine"="churro"]({{bbox}});node(w););out meta;',
 			iconSrc: imgSrc + 'icones/fire_hydrant.svg',
 			iconStyle: 'background-color:rgba(255,255,255,0.4)',
 style: function (feature) {
-				var key_regex = /^fire_hydrant:diameter$/
+				var key_regex = /^name$/
 				var name_key = feature.getKeys().filter(function(t){return t.match(key_regex)}).pop() || "name"
 				var name = feature.get(name_key) || '';
 				var fill = new ol.style.Fill({
